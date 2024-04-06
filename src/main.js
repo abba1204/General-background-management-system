@@ -8,6 +8,7 @@ import router from './router'
 // tab.js定义函数，在index.js封装，全局注入，在main.js挂载
 // store 挂载
 import store from './store'
+import './api/mock'
 
 Vue.config.productionTip = false
 // 相比Element整个引入，会减小体积

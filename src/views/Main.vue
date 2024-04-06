@@ -3,7 +3,8 @@
   <div>
 
     <el-container>
-      <el-aside width="200px">
+      <!-- aside去掉宽度设置，则在侧边栏折叠时，右侧部分就能展开，所以设置为auto -->
+      <el-aside width="auto">
         <!-- 引入侧边栏组件 -->
         <common-aside />
       </el-aside>

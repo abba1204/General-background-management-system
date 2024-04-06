@@ -17,15 +17,17 @@
 
 <script>
 
-export default {
-  name: 'App'
-}
+  export default {
+    name: 'App'
+  }
 </script>
 <!-- 消除自带样式 -->
 <style lang="less">
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
+  html,
+  body,
+  h3,
+  p {
+    margin: 0;
+    padding: 0;
+  }
 </style>
