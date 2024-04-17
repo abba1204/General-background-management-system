@@ -14,6 +14,7 @@
           <!-- 通用导航栏，独立区域，作为一个组件引入 -->
           <common-header />
         </el-header>
+        <common-tag />
         <el-main>
           <!-- main下面有子路由，所以要给路由出口 -->
           <!-- 路由出口 -->
@@ -27,22 +28,24 @@
   </div>
 </template>
 <script>
-import CommonAside from '../components/CommonAside.vue'
-import CommonHeader from '../components/CommonHeader.vue'
-export default {
-  data() {
-    return {}
-  },
-  // 组件引入
-  components: {
-    CommonAside,
-    CommonHeader
+  import CommonAside from '../components/CommonAside.vue'
+  import CommonHeader from '../components/CommonHeader.vue'
+  import CommonTag from '../components/CommonTag.vue'
+  export default {
+    data() {
+      return {}
+    },
+    // 组件引入
+    components: {
+      CommonAside,
+      CommonHeader,
+      CommonTag
+    }
   }
-}
 </script>
 
 <style scoped>
-.el-header {
-  padding: 0;
-}
+  .el-header {
+    padding: 0;
+  }
 </style>

@@ -123,6 +123,9 @@
           // 想要导航到不同的 URL，使用 router.push 方法。这个方法会向 history 栈添加一个新记录，所以，当用户点击浏览器后退按钮时，可以返回到之前的 URL。
           this.$router.push(item.path)
         }
+        // clickMenu时调用mutation
+        // 可调用挂载在vue实例的store
+        this.$store.commit('selectMenu', item)
       },
     },
     // 计算属性
