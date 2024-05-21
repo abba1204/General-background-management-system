@@ -21,8 +21,8 @@
           <!-- el-select:下拉选框 -->
           <el-select v-model="form.sex" placeholder="请选择性别">
             <!-- label:显示出来的选项内容，value:具体传回的值 -->
-            <el-option label="男" value="1"></el-option>
-            <el-option label="女" value="0"></el-option>
+            <el-option label="男" :value="1"></el-option>
+            <el-option label="女" :value="0"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="出生日期" prop="birth">
@@ -76,7 +76,7 @@
   </div>
 </template>
 <script>
-  import { getUser, addUser, editUser } from '../api'
+  import { getUser, addUser, editUser, delUser } from '../api'
   export default {
     data() {
       return {
@@ -149,10 +149,32 @@
         this.handleClose()
       },
       handleDelete(row) {
+        this.$confirm('此操作将永久删除该数据,是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          delUser({ id: row.id }).then(() => { // 传入当前数据id(对象形式) // 唯一标识
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+            //更新列表
+            this.getList()
+          })
 
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       handleEdit(row) {
         this.modalType = 1
+        this.dialogVisible = true
+        //弹窗内容回显 // 需要对当前行数据进行深拷贝,否则会出错
+        this.form = JSON.parse(JSON.stringify(row))
       },
       handleAdd() {
         this.modalType = 0
