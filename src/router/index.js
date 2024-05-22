@@ -13,6 +13,7 @@ import Main from '../views/Main.vue'
 import Mall from '../views/Mall.vue'
 import PageOne from '../views/PageOne.vue'
 import PageTwo from '../views/PageTwo.vue'
+import Login from '../views/Login.vue'
 // 配置router
 Vue.use(VueRouter)
 
@@ -37,6 +38,11 @@ const routes = [
       { path: 'page2', name: 'page2', component: PageTwo },//页面二
     ]
   },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  }
   /*
   //放到上面
   //  http://localhost:8080/#/home
