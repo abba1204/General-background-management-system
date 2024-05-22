@@ -48,7 +48,18 @@
       <el-button @click="handleAdd" type="primary">
         + 新增
       </el-button>
-      <el-table :data="tableData" style="width:100%">
+      <!-- form搜索区域 -->
+      <el-form :inline="true" :model="userForm">
+        <el-form-item>
+          <el-input placeholder="请输入名称" v-model="userForm.name"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">查询</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <div class="common-table">
+      <el-table stripe height="90%" :data="tableData" style="width:100%">
         <el-table-column prop="name" label="姓名">
         </el-table-column>
         <el-table-column prop="sex" label="性别">
@@ -72,7 +83,13 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="pager">
+        <el-pagination layout="prev, pager, next" :total="total" @current-change="handlePage">
+          <!-- 传递属性用@,传事件用: -->
+        </el-pagination>
+      </div>
     </div>
+
   </div>
 </template>
 <script>
@@ -109,7 +126,16 @@
 
         },
         tableData: [],
-        modalType: 0 //0表示新增弹窗,1表示编辑
+        modalType: 0, //0表示新增弹窗,1表示编辑
+        total: 0,//数据记录总条数,默认为0
+        //分页参数
+        pageData: {
+          page: 1,
+          limit: 10
+        },
+        userForm: {
+          name: ''
+        }
       }
     },
     methods: {
@@ -182,10 +208,22 @@
       },
       getList() {
         //获取列表的数据
-        getUser().then(({ data }) => {
+        //合并对象属性
+        getUser({ params: { ...this.userForm, ...this.pageData } }).then(({ data }) => {
           console.log(data)
           this.tableData = data.list
+          this.total = data.count || 0 //获取数据长度赋值给total
         })
+      },
+      //选择页码的回调
+      handlePage(val) {
+        this.pageData.page = val
+        //调用获取数据的方法
+        this.getList()
+      },
+      //列表的查询
+      onSubmit() {
+        this.getList()
       }
     },
     mounted() {
@@ -194,3 +232,25 @@
     }
   }
 </script>
+<style lang="less" scoped>
+  .manage {
+    height: 90%;
+
+    .manage-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .common-table {
+      position: relative;
+      height: calc(100% - 62px);
+
+      .pager {
+        position: absolute;
+        bottom: 0;
+        right: 20px;
+      }
+    }
+  }
+</style>
