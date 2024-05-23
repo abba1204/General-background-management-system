@@ -16,13 +16,14 @@
       </el-breadcrumb>
     </div>
     <div class="r-content">
-      <el-dropdown>
+      <el-dropdown @command="handleClick">
         <span class="el-dropdown-link">
           <img class="user" src="../assets/images/user.png" alt="">
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>个人中心</el-dropdown-item>
-          <el-dropdown-item>退出</el-dropdown-item>
+          <!-- 登出要清空token -->
+          <el-dropdown-item command="cancel">退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -31,6 +32,7 @@
 <script>
   // 通过辅助函数实现数据活性 =>computed
   import { mapState } from 'vuex'
+  import Cookie from 'js-cookie'
   export default {
     data() {
       return {}
@@ -42,7 +44,18 @@
         // this.$store.commit()  同步操作
         // this.$store.commit('方法名', 值)【存储】
         this.$store.commit('collapseMenu')
-      }
+      },
+      handleClick(command) {
+        if (command === 'cancel') {
+          console.log('登出')
+          //请求cookie中的token
+          Cookie.remove('token')
+          //清楚cokokie中的menu
+          Cookie.remove('menu')
+          //跳转到登录页面
+          this.$router.push('/login')
+        }
+      },
     },
     computed: {
       // 返回一个对象，所以要用扩展运算符(ES6语法，对mapState返回的对象进行解构)

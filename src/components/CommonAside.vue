@@ -50,58 +50,12 @@
   }
 </style>
 <script>
+  import Cookie from "js-cookie"
   // 打包出口
   export default {
     // 数据
     data() {
-      return {
-        menuData: [
-          {
-            // path代表路由
-            path: '/',
-            name: 'home',
-            label: '首页',
-            // icon利用了elementUI组件，直接使用ElementUI的字体图标
-            icon: 's-home',
-            url: 'Home/Home'
-          },
-          {
-            path: '/mall',
-            name: 'mall',
-            label: '商品管理',
-            icon: 'video-play',
-            url: 'MallManage/MallManage'
-          },
-          {
-            path: '/user',
-            name: 'user',
-            label: '用户管理',
-            icon: 'user',
-            url: 'UserManage/UserManage'
-          },
-          {
-            // 有子菜单
-            label: '其他',
-            icon: 'location',
-            children: [
-              {
-                path: '/page1',
-                name: 'page1',
-                label: '页面1',
-                icon: 'setting',
-                url: 'Other/PageOne'
-              },
-              {
-                path: '/page2',
-                name: 'page2',
-                label: '页面2',
-                icon: 'setting',
-                url: 'Other/PageTwo'
-              },
-            ],
-          },
-        ],
-      };
+      return {};
     },
     // 方法
     methods: {
@@ -144,6 +98,10 @@
       // 同理，取反
       hasChildren() {
         return this.menuData.filter(item => item.children)
+      },
+      menuData() {
+        //判断当前数据,如果缓存中没有,从当前的store中获取
+        return JSON.parse(Cookie.get('menu')) || this.$store.state.tab.menu
       },
       // 要响应点击按钮时菜单栏的展开折叠变化，在computed下定义方法，引入state
       isCollapse() {

@@ -1,3 +1,4 @@
+import Cookie from 'js-cookie'
 // 管理菜单相关数据
 export default {
   // 定义数据
@@ -15,7 +16,8 @@ export default {
         icon: 's-home',
         url: 'Home/Home'
       },
-    ] //面包屑数据
+    ], //面包屑数据
+    menu: []
   },
   mutations: {
     // 修改菜单展开收起的方法
@@ -42,6 +44,44 @@ export default {
       const index = state.tabsList.findIndex(val => val.name === item.name)
       // 调用数组splice方法
       state.tabsList.splice(index, 1)
-    }
+    },
+    //设置menu数据
+    //对数据进行缓存,web数据在刷新后会丢失(丢失store内数据),所以要进行数据缓存
+    setMenu(state, val) {
+      state.menu = val
+      Cookie.set('menu', JSON.stringify(val))
+    },
+    //动态注册路由
+    addMenu(state, router) {
+      //容错判断 //判断当前缓存中是否有数据
+      if (!Cookie.get('menu')) return
+      //数据存在
+      const menu = JSON.parse(Cookie.get('menu'))
+      // 给当前数据进行数据更新
+      state.menu = menu
+      //组装动态路由的数据
+      const menuArray = []
+      menu.forEach(item => {
+        if (item.children) {
+          item.children = item.children.map(item => {
+            //数据组装
+            item.component = () => import(`../views/${item.url}`) //return一个import调用
+            return item
+          })
+          menuArray.push(...item.children)
+        } else {
+          //没有子菜单
+          item.component = () => import(`../views/${item.url}`)
+          menuArray.push(item)
+        }
+      });
+      console.log(menuArray, 'menuArray')
+      //路由的动态添加
+      menuArray.forEach(item => {
+        //              主路由,子路由
+        router.addRoute('Main', item)
+      })
+    },
+
   }
 }

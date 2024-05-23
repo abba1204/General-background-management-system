@@ -25,6 +25,7 @@ const routes = [
     // 斜杠代表主路由
     path: '/',
     component: Main,
+    name: 'Main',
     //重定向
     redirect: '/home',
     // 嵌套路由

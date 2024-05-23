@@ -1,7 +1,7 @@
 // 用户数据
 import Mock from 'mockjs'
 export default {
-  getMenu: config => {
+  getMenu: config => { //接收传入的参数
     const { username, password } = JSON.parse(config.body)
     // 先判断用户是否存在
     // 判断账号和密码是否对应
