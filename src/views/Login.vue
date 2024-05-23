@@ -63,7 +63,8 @@
                 //获取菜单的数据存入store中
                 // data.data.menu
                 this.$store.commit('setMenu', data.data.menu)
-
+                // 动态添加路由  //添加当前实例
+                this.$route.commit('addMenu', this.$router)
                 //跳转到首页
                 this.$router.push('/home')
               }
